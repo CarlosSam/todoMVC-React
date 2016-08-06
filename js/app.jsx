@@ -1,9 +1,9 @@
-var ENTER_KEY = 13;
 
 (function(){
+
 	app.TodoApp = React.createClass({
 		handleInputKeyPress: function(e){
-			if (e.keyCode == ENTER_KEY){
+			if (e.keyCode == app.ENTER_KEY){
 				app.TodoModel.addTodo(e.currentTarget.value);
 				e.currentTarget.value = "";
 			}

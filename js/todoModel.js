@@ -3,6 +3,9 @@ var app = app || {};
 (function (window) {
 	'use strict';
 
+	app.ENTER_KEY = 13;
+	app.ESC_KEY = 27;
+
 	app.VIEW_MODE_ALL = "all",
 	app.VIEW_MODE_COMPLETED = "completed",
 	app.VIEW_MODE_ACTIVE = "active",
