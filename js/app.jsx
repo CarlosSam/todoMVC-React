@@ -14,6 +14,9 @@
 		removeTodo: function(todo){
 			app.TodoModel.removeTodo(todo);
 		},
+		componentDidUpdate: function(prevProps, prevState){
+			this.refs.appCheckbox.checked = app.TodoModel.hasAnyTodoLeft();
+		},
 		render: function(){
 			var itens = app.TodoModel.todos.filter(
 					function(todo){
@@ -34,7 +37,7 @@
 					this
 				); 
 			var section = 	<section className="main">
-								<input className="toggle-all" type="checkbox"></input>
+								<input ref="appCheckbox" onClick={app.TodoModel.editAllTodosCompleted.bind(app.TodoModel, app.TodoModel.hasAnyTodoLeft())} className="toggle-all" type="checkbox"></input>
 								<label htmlFor="toggle-all">Mark all as complete</label>
 								<ul className="todo-list">
 									{itens}

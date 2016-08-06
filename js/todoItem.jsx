@@ -35,11 +35,14 @@
 			editingElement.className = editingElement.className.replace(" editing", "");
 			document.getElementsByClassName("edit")[0].remove();
 		},
+		componentDidUpdate: function(prevProps, prevState){
+			this.refs.checkboxRef.checked = this.props.completed;
+		},
 		render: function(){
 			return (
 				<li data-id={this.props.id} className={this.props.completed ? "completed" : ""}>
 					<div className="view">
-						<input onClick={app.TodoModel.editTodoCompleted.bind(app.TodoModel, this.props.id, !this.props.completed)} className="toggle" type="checkbox" defaultChecked={this.props.completed}></input>
+						<input ref="checkboxRef" onClick={app.TodoModel.editTodoCompleted.bind(app.TodoModel, this.props.id, !this.props.completed)} className="toggle" type="checkbox" defaultChecked={this.props.completed}></input>
 						<label onDoubleClick={this.prepareEditInput}>{this.props.title}</label>
 						<button className="destroy" onClick={this.props.destroyTodo}></button>
 					</div>

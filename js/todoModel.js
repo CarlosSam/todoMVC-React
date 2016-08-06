@@ -71,6 +71,9 @@ var app = app || {};
 			});
 			this.informListeners();
 		},
+		hasAnyTodoLeft: function(){
+			return this.qtdItensLeft() > 0;
+		},
 		hasCompletedTodos: function(){
 			var idx = 0;
 			while (idx < this.todos.length){
