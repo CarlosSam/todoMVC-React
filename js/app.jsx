@@ -15,10 +15,24 @@ var ENTER_KEY = 13;
 			app.TodoModel.removeTodo(todo);
 		},
 		render: function(){
-			var todoApp = this;
-			var itens = app.TodoModel.todos.map(function(todo){
-				return <app.TodoItem destroyTodo={this.removeTodo.bind(this, todo)} key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} />;
-			}, this); 
+			var itens = app.TodoModel.todos.filter(
+					function(todo){
+						if (app.TodoModel.viewMode == app.VIEW_MODE_ALL){
+							return true;
+						}
+						if (app.TodoModel.viewMode == app.VIEW_MODE_ACTIVE){
+							return !todo.completed;
+						}
+						if (app.TodoModel.viewMode == app.VIEW_MODE_COMPLETED){
+							return todo.completed;
+						}
+					}
+				).map(
+					function(todo){
+						return <app.TodoItem destroyTodo={this.removeTodo.bind(this, todo)} key={todo.id} id={todo.id} title={todo.title} completed={todo.completed} />;
+					}, 
+					this
+				); 
 			var section = 	<section className="main">
 								<input className="toggle-all" type="checkbox"></input>
 								<label htmlFor="toggle-all">Mark all as complete</label>
@@ -26,7 +40,7 @@ var ENTER_KEY = 13;
 									{itens}
 								</ul>
 							</section>;
-			var footer = <app.Footer handleClearCompleted={this.clearCompleted} qtdTodosLeft={app.TodoModel.qtdItensLeft()} hasCompletedTodos={app.TodoModel.hasCompletedTodos()} />;
+			var footer = <app.Footer viewMode={app.TodoModel.viewMode} handleClearCompleted={this.clearCompleted} qtdTodosLeft={app.TodoModel.qtdItensLeft()} hasCompletedTodos={app.TodoModel.hasCompletedTodos()} />;
 			return (
 				<div>
 					<header className="header">
@@ -50,5 +64,11 @@ var ENTER_KEY = 13;
 	render();
 
 	app.TodoModel.addListener(render);
+
+	Router({
+		'/': app.TodoModel.updateViewMode.bind(app.TodoModel, app.VIEW_MODE_ALL),
+		'/active': app.TodoModel.updateViewMode.bind(app.TodoModel, app.VIEW_MODE_ACTIVE),
+		'/completed': app.TodoModel.updateViewMode.bind(app.TodoModel, app.VIEW_MODE_COMPLETED)
+	}).init();
 
 })();

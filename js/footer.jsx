@@ -10,13 +10,13 @@
 					{todoCountTxt}
 					<ul className="filters">
 						<li>
-							<a className="selected" href="#/">All</a>
+							<a className={this.props.viewMode == app.VIEW_MODE_ALL ? "selected" : ""} href="#/">All</a>
 						</li>
 						<li>
-							<a href="#/active">Active</a>
+							<a className={this.props.viewMode == app.VIEW_MODE_ACTIVE ? "selected" : ""} href="#/active">Active</a>
 						</li>
 						<li>
-							<a href="#/completed">Completed</a>
+							<a className={this.props.viewMode == app.VIEW_MODE_COMPLETED ? "selected" : ""} href="#/completed">Completed</a>
 						</li>
 					</ul>
 					{clearCompletedBtn}

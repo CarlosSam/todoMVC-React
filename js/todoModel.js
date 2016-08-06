@@ -3,11 +3,15 @@ var app = app || {};
 (function (window) {
 	'use strict';
 
+	app.VIEW_MODE_ALL = "all",
+	app.VIEW_MODE_COMPLETED = "completed",
+	app.VIEW_MODE_ACTIVE = "active",
+
 	app.TodoModel = {
 		todos: [{id: 1470446015839, title: "viajar o mundo", completed: false},
 		{id: 1470446015846, title: "experimentar várias coisas", completed: true},
 		{id: 1470446015898, title: "realizar muito", completed: false}],
-		viewMode: "all",
+		viewMode: app.VIEW_MODE_ALL, // all options: all, active, completed
 		listeners: [],
 		addListener: function(listenerFunction){
 			this.listeners.push(listenerFunction);
@@ -16,6 +20,10 @@ var app = app || {};
 			this.listeners.forEach(function(func){
 				func();
 			});
+		},
+		updateViewMode: function(newViewMode){
+			this.viewMode = newViewMode;
+			this.informListeners();
 		},
 		addTodo: function(newTitle){
 			this.todos.push({id: Date.now(), title: newTitle, completed: false});
