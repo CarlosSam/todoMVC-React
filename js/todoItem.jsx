@@ -39,7 +39,7 @@
 			return (
 				<li data-id={this.props.id} className={this.props.completed ? "completed" : ""}>
 					<div className="view">
-						<input className="toggle" type="checkbox" defaultChecked={this.props.completed}></input>
+						<input onClick={app.TodoModel.editTodoCompleted.bind(app.TodoModel, this.props.id, !this.props.completed)} className="toggle" type="checkbox" defaultChecked={this.props.completed}></input>
 						<label onDoubleClick={this.prepareEditInput}>{this.props.title}</label>
 						<button className="destroy" onClick={this.props.destroyTodo}></button>
 					</div>
