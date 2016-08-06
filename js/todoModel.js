@@ -4,17 +4,28 @@ var app = app || {};
 	'use strict';
 
 	app.TodoModel = {
-		todos: [{id: 1470434730675, title: "tenho a oportunidade de programar muito", completed: false},
-			{id: 1470434745072, title: "I get to do many amazing things!", completed: true},
-			{id: 1470434829093, title: "web business", completed: false}],
+		todos: [{id: 1470446015839, title: "viajar o mundo", completed: false},
+		{id: 1470446015846, title: "experimentar várias coisas", completed: true},
+		{id: 1470446015898, title: "realizar muito", completed: false}],
 		viewMode: "all",
+		listeners: [],
+		addListener: function(listenerFunction){
+			this.listeners.push(listenerFunction);
+		},
+		informListeners: function(){
+			this.listeners.forEach(function(func){
+				func();
+			});
+		},
 		addTodo: function(newTitle){
 			this.todos.push({id: Date.now(), title: newTitle, completed: false});
+			this.informListeners();
 		},
-		removeTodo: function(id){
+		removeTodo: function(todo){
 			this.todos = this.todos.filter(function(e){ 
-				return e.id != id;
+				return e != todo;
 			});
+			this.informListeners();
 		},
 		editTodoTitle: function(id, newTitle){
 			this.todos = this.todos.map(function(e){
@@ -24,12 +35,14 @@ var app = app || {};
 				e.title = newTitle;
 				return e;
 			});
+			this.informListeners();
 		},
 		editAllTodosCompleted: function(completed){
 			this.todos = this.todos.map(function(e){
 				e.completed = completed;
 				return e;
 			});
+			this.informListeners();
 		},
 		editTodoCompleted: function(id, completed){
 			this.todos = this.todos.map(function(e){
@@ -39,11 +52,26 @@ var app = app || {};
 				e.completed = completed;
 				return e;
 			});
+			this.informListeners();
 		},
 		removeAllTodosCompleted: function(){
 			this.todos = this.todos.filter(function(e){
 				return !e.completed;
 			});
+			this.informListeners();
+		},
+		hasCompletedTodos: function(){
+			var idx = 0;
+			while (idx < this.todos.length){
+				if (this.todos[idx].completed){
+					return true;
+				}
+				idx++;
+			} 
+			return false;
+		},
+		qtdItensLeft: function(){
+			return this.todos.filter(function(e){return !e.completed}).length;
 		}
 	};
 })(window);
