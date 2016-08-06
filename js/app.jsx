@@ -1,5 +1,13 @@
+var ENTER_KEY = 13;
+
 (function(){
 	app.TodoApp = React.createClass({
+		handleInputKeyPress: function(e){
+			if (e.keyCode == ENTER_KEY){
+				app.TodoModel.addTodo(e.currentTarget.value);
+				e.currentTarget.value = "";
+			}
+		},
 		clearCompleted: function(){
 			app.TodoModel.removeAllTodosCompleted();
 		},
@@ -23,7 +31,7 @@
 				<div>
 					<header className="header">
 						<h1>todos</h1>
-						<input className="new-todo" placeholder="What needs to be done?" autoFocus={true}></input>
+						<input className="new-todo" onKeyUp={this.handleInputKeyPress} placeholder="What needs to be done?" autoFocus={true}></input>
 					</header>
 					{app.TodoModel.todos.length > 0 ? section : null}
 					{app.TodoModel.todos.length > 0 ? footer : null}
