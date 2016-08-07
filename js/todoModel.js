@@ -10,10 +10,10 @@ var app = app || {};
 	app.VIEW_MODE_COMPLETED = "completed",
 	app.VIEW_MODE_ACTIVE = "active",
 
+	app.LOCAL_STORAGE_NAMESPACE = "todos-react2",
+
 	app.TodoModel = {
-		todos: [{id: 1470446015839, title: "viajar o mundo", completed: false},
-		{id: 1470446015846, title: "experimentar várias coisas", completed: true},
-		{id: 1470446015898, title: "realizar muito", completed: false}],
+		todos: JSON.parse(localStorage.getItem(app.LOCAL_STORAGE_NAMESPACE)) || [],
 		viewMode: app.VIEW_MODE_ALL, // all options: all, active, completed
 		listeners: [],
 		addListener: function(listenerFunction){
@@ -23,6 +23,9 @@ var app = app || {};
 			this.listeners.forEach(function(func){
 				func();
 			});
+		},
+		storeTodos: function(){
+			localStorage.setItem(app.LOCAL_STORAGE_NAMESPACE, JSON.stringify(app.TodoModel.todos));
 		},
 		updateViewMode: function(newViewMode){
 			this.viewMode = newViewMode;

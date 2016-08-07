@@ -15,7 +15,14 @@
 			app.TodoModel.removeTodo(todo);
 		},
 		componentDidUpdate: function(prevProps, prevState){
-			this.refs.appCheckbox.checked = app.TodoModel.hasAnyTodoLeft();
+			if (this.refs.appCheckbox){
+				this.refs.appCheckbox.checked = app.TodoModel.hasAnyTodoLeft();
+			}
+		},
+		componentDidMount: function(){
+			if (this.refs.appCheckbox){
+				this.refs.appCheckbox.checked = app.TodoModel.hasAnyTodoLeft();
+			}
 		},
 		render: function(){
 			var itens = app.TodoModel.todos.filter(
@@ -67,6 +74,7 @@
 	render();
 
 	app.TodoModel.addListener(render);
+	app.TodoModel.addListener(app.TodoModel.storeTodos);
 
 	Router({
 		'/': app.TodoModel.updateViewMode.bind(app.TodoModel, app.VIEW_MODE_ALL),
