@@ -26,14 +26,18 @@
 		},
 		processEditInput: function(evt){
 			var newTitle = evt.currentTarget.value.trim();
-			if (newTitle.length > 0){
-				app.TodoModel.editTodoTitle(this.props.id, newTitle);
+			if (newTitle.length == 0){
+				this.props.destroyTodo();
+				return;
 			}
+			app.TodoModel.editTodoTitle(this.props.id, newTitle);
 		},
 		leaveEditMode: function(){
 			var editingElement = document.getElementsByClassName("editing")[0];
-			editingElement.className = editingElement.className.replace(" editing", "");
-			document.getElementsByClassName("edit")[0].remove();
+			if (editingElement){
+				editingElement.className = editingElement.className.replace(" editing", "");
+				document.getElementsByClassName("edit")[0].remove();
+			}
 		},
 		componentDidUpdate: function(prevProps, prevState){
 			this.refs.checkboxRef.checked = this.props.completed;
